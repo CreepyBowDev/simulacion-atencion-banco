@@ -49,7 +49,7 @@ export default class ColaClientes {
         return this.frente === null;
     }
 
-    tamanio() {
+    tamaño() {
         return this.size;
     }
 
