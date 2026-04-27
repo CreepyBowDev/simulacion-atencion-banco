@@ -8,7 +8,7 @@ export default class ColaClientes {
     }
 
     encolar(cliente) {
-        const nuevoNodo = new Nodo(cliente);
+        const nuevoNodo = new Nodo({ dato: cliente });
 
         if (this.estaVacia()) {
             this.frente = nuevoNodo;
