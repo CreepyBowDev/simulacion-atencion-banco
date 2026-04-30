@@ -1,5 +1,5 @@
 export default class Nodo {
-  constructor({ dato }) {
+  constructor(dato) {
     this.dato = dato;
     this.siguiente = null;
   }
