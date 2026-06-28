@@ -94,15 +94,30 @@ export default class BancoService {
     }
 
     atenderSiguiente() {
+        if (this.clienteActual && this.clienteActual.estado === "En atención") {
+            return null;
+        }
+
         if (this.colaClientes.estaVacia()) {
             return null;
         }
 
-        const cliente = this.colaClientes.desencolar(); //C2 || C1 -> Estado = "Atendido
-        cliente.estado = "Atendido";
-
-        this.listaAtendidos.insertarFinal(cliente);
+        const cliente = this.colaClientes.desencolar();
+        cliente.estado = "En atención";
         this.clienteActual = cliente;
+
+        this.guardarEstado();
+        return cliente;
+    }
+
+    finalizarClienteActual() {
+        if (!this.clienteActual || this.clienteActual.estado !== "En atención") {
+            return null;
+        }
+
+        const cliente = this.clienteActual;
+        cliente.estado = "Atendido";
+        this.listaAtendidos.insertarFinal(cliente);
 
         const accion = new Accion(
             "ATENDER_CLIENTE",
@@ -111,6 +126,7 @@ export default class BancoService {
         );
 
         this.pilaAcciones.push(accion);
+        this.clienteActual = null;
         this.guardarEstado();
 
         return cliente;

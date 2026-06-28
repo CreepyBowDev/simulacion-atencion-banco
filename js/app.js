@@ -44,11 +44,23 @@ document.getElementById("btn-atender").addEventListener("click", () => {
     try {
         const cliente = bancoService.atenderSiguiente();
         if (!cliente) {
-            alert("No hay clientes en la cola de espera");
+            alert("No hay clientes disponibles en la cola o ya hay un cliente en atención.");
         }
         actualizarInterfaz();
     } catch (error) {
-        console.error("Error al atender cliente:", error);
+        console.error("Error al traer siguiente cliente:", error);
+    }
+});
+
+document.getElementById("btn-finalizar").addEventListener("click", () => {
+    try {
+        const cliente = bancoService.finalizarClienteActual();
+        if (!cliente) {
+            alert("No hay cliente en atención para finalizar.");
+        }
+        actualizarInterfaz();
+    } catch (error) {
+        console.error("Error al finalizar cliente en atención:", error);
     }
 });
 

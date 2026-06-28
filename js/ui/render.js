@@ -57,6 +57,7 @@ export function renderClienteActual(cliente) {
                 <div class="ticket-display">${cliente.ticket}</div>
                 <div class="client-info">${cliente.nombre}</div>
                 <div class="tramite-badge">${cliente.tramite}</div>
+                <div class="estado">${cliente.estado}</div>
                 <div class="hora-ticket">🕒 ${cliente.horaLlegada || "—"}</div>
             </div>
         `;
