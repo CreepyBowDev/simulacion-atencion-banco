@@ -386,6 +386,15 @@ body {
     font-weight: 500;
 }
 
+.client-card .info .hora-ticket,
+.client-current .hora-ticket {
+    display: block;
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
 .action-buttons {
     display: flex;
     flex-wrap: wrap;

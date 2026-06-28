@@ -13,6 +13,7 @@ export function renderCola(clientes) {
                 <div class="info">
                     <span class="nombre">${cliente.nombre}</span>
                     <span class="tramite">${cliente.tramite}</span>
+                    <span class="hora-ticket">🕒 ${cliente.horaLlegada || "—"}</span>
                 </div>
             `;
             colaElement.appendChild(clienteElement);
@@ -36,6 +37,7 @@ export function renderHistorial(historial) {
                         <span class="nombre">${cliente.nombre}</span>
                         <span class="tramite">${cliente.tramite}</span>
                         <span class="estado">${cliente.estado}</span>
+                        <span class="hora-ticket">🕒 ${cliente.horaLlegada || "—"}</span>
                     </div>
                 `;
                 historialElement.appendChild(clienteElement);
@@ -55,6 +57,7 @@ export function renderClienteActual(cliente) {
                 <div class="ticket-display">${cliente.ticket}</div>
                 <div class="client-info">${cliente.nombre}</div>
                 <div class="tramite-badge">${cliente.tramite}</div>
+                <div class="hora-ticket">🕒 ${cliente.horaLlegada || "—"}</div>
             </div>
         `;
     } else {

@@ -14,7 +14,7 @@ export default class ColaClientes {
             this.frente = nuevoNodo;
             this.final = nuevoNodo;
         } else {
-            this.final.siguiente = nuevoNodo;
+            this.final.siguiente = nuevoNodo; // C2->null
             this.final = nuevoNodo;
         }
 

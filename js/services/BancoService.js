@@ -14,14 +14,37 @@ export default class BancoService {
 
         this.clienteActual = null;
         this.contadorTickets = 1;
+        this.contadoresTicketsPorTramite = {};
 
         this.cargarEstadoGuardado();
     }
 
-    generarTicket() {
-        const numero = String(this.contadorTickets).padStart(3, "0");
+    obtenerPrefijoTramite(tramite) {
+        const valor = (tramite || "").trim().toLowerCase();
+
+        switch (valor) {
+            case "retiro":
+                return "RT";
+            case "depósito":
+            case "deposito":
+                return "DP";
+            case "préstamo":
+            case "prestamo":
+                return "PR";
+            case "consulta":
+                return "CS";
+            default:
+                return "OT";
+        }
+    }
+
+    generarTicket(tramite = "") {
+        const prefijo = this.obtenerPrefijoTramite(tramite);
+        const secuencia = (this.contadoresTicketsPorTramite[prefijo] || 0) + 1;
+        this.contadoresTicketsPorTramite[prefijo] = secuencia;
+        const numero = String(secuencia).padStart(3, "0");
         this.contadorTickets++;
-        return `A-${numero}`;
+        return `${prefijo}-${numero}`;
     }
 
     obtenerHoraActual() {
@@ -57,7 +80,7 @@ export default class BancoService {
         }
 
         const cliente = new Cliente(
-            this.generarTicket(),
+            this.generarTicket(tramite),
             nombre.trim(),
             tramite.trim(),
             this.obtenerHoraActual(),
@@ -75,7 +98,7 @@ export default class BancoService {
             return null;
         }
 
-        const cliente = this.colaClientes.desencolar();
+        const cliente = this.colaClientes.desencolar(); //C2 || C1 -> Estado = "Atendido
         cliente.estado = "Atendido";
 
         this.listaAtendidos.insertarFinal(cliente);
@@ -174,7 +197,8 @@ export default class BancoService {
             historial: this.listaAtendidos.toArray(),
             pila: this.pilaAcciones.toArray(),
             clienteActual: this.clienteActual,
-            contadorTickets: this.contadorTickets
+            contadorTickets: this.contadorTickets,
+            contadoresTicketsPorTramite: this.contadoresTicketsPorTramite
         };
     }
 
@@ -188,6 +212,7 @@ export default class BancoService {
         this.pilaAcciones.cargarDesdeArray(estado.pila || []);
         this.clienteActual = estado.clienteActual || null;
         this.contadorTickets = estado.contadorTickets || 1;
+        this.contadoresTicketsPorTramite = estado.contadoresTicketsPorTramite || {};
     }
 
     reiniciarSistema() {
@@ -196,6 +221,7 @@ export default class BancoService {
         this.pilaAcciones.vaciar();
         this.clienteActual = null;
         this.contadorTickets = 1;
+        this.contadoresTicketsPorTramite = {};
 
         this.storageService.limpiarEstado();
     }
